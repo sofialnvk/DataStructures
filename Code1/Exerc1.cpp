@@ -163,11 +163,40 @@ bool even(int i)
 //Divide-and-conquer algorithm
 vector<int>::iterator stable_partition(vector<int>& V, vector<int>::iterator first, vector<int>::iterator last, Test p)
 {
-    //ADD IMPLEMENTATION
+    int n = last-first;
+    //Base cases
+    //Empty sequence
+    if (n == 0)
+    {
+        return first;
+    }
+    //One element sequence
+    if (n == 1)
+    {
+        //If bool is true, if element is "green"
+        if (p(*first))
+        {
+            return last;
+        }
+        //If bool is false, if element is not "green"
+        else
+        {
+            return first;
+        }
+    }
 
-	cout << "Note implemented, yet!!" << endl;
+    vector<int>::iterator mid = first + (n/2);
 
-	return begin(V); //this is dummy code that should be removed
+    //Points to the middle element
+    //advance(mid,dist);
+
+    vector<int>::iterator vLeft = stable_partition(V, first, mid, p);
+    vector<int>::iterator vRight = stable_partition(V, mid, last, p);
+
+    vector<int>::iterator it = rotate(vLeft,mid,vRight);
+
+    return it;
+
 }
 
 void stable_partition(vector<int>& V, Test p)
@@ -175,62 +204,21 @@ void stable_partition(vector<int>& V, Test p)
 	stable_partition(V, begin(V), end(V), p);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Iterative algorithm
 void stable_partition_iterative(vector<int>& V, Test p)
 {
-    //ADD IMPLEMENTATION
-
-    //Loop igenom hela sekvensen
-    //Kolla varje slot i sekvensen om den är even mha p.
-    //Om den är even, pusch back to front av sekvensen
-
     int i = 0;
 
     using vecIt = vector<int>::iterator;
 
-    //Ska ligga till vänster (byt namn)
-    //Even numbers
+    //If bool is true, values are placed in this vector
     vector<int> left;
-    //Ska ligga till höger (byt namn)
+    //If bool is false, values are placed in this vector
     vector<int> right;
 
     for (vecIt it = V.begin(); it<V.end(); ++it, ++i)
     {
-        //Om sloten innehåller ett even number
+        //If bool is true
         if(p(V[i]))
         {
             left.push_back(*it);
@@ -240,9 +228,9 @@ void stable_partition_iterative(vector<int>& V, Test p)
             right.push_back(*it);
         }
     }
-
+    //Add the right vector to the end of the left vector
     left.insert(left.end(), right.begin(), right.end());
-
+    //Replace the vector V with the "sorted" vector
     V.swap(left);
 
 }
