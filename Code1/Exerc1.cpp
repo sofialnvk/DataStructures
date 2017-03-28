@@ -162,7 +162,8 @@ bool even(int i)
 
 //Divide-and-conquer algorithm
 vector<int>::iterator stable_partition(vector<int>& V, vector<int>::iterator first, vector<int>::iterator last, Test p)
-{
+{	
+	// n: number of values in the sequence
     int n = last-first;
     //Base cases
     //Empty sequence
@@ -185,14 +186,16 @@ vector<int>::iterator stable_partition(vector<int>& V, vector<int>::iterator fir
         }
     }
 
+	//Points to the middle element
     vector<int>::iterator mid = first + (n/2);
-
-    //Points to the middle element
-    //advance(mid,dist);
 
     vector<int>::iterator vLeft = stable_partition(V, first, mid, p);
     vector<int>::iterator vRight = stable_partition(V, mid, last, p);
 
+	//Rotates to create stable partition
+	//vLeft --> mid = first section
+	//mid --> vRight = second section
+	//These sections switch places (rotate)
     vector<int>::iterator it = rotate(vLeft,mid,vRight);
 
     return it;
@@ -209,14 +212,14 @@ void stable_partition_iterative(vector<int>& V, Test p)
 {
     int i = 0;
 
-    using vecIt = vector<int>::iterator;
+	vector<int>::iterator it;
 
     //If bool is true, values are placed in this vector
     vector<int> left;
     //If bool is false, values are placed in this vector
     vector<int> right;
 
-    for (vecIt it = V.begin(); it<V.end(); ++it, ++i)
+    for (it = V.begin(); it<V.end(); ++it, ++i)
     {
         //If bool is true
         if(p(V[i]))
@@ -232,7 +235,6 @@ void stable_partition_iterative(vector<int>& V, Test p)
     left.insert(left.end(), right.begin(), right.end());
     //Replace the vector V with the "sorted" vector
     V.swap(left);
-
 }
 
 void execute(vector<int>& V)
