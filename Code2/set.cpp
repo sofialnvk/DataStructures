@@ -22,11 +22,16 @@ Set::Set (int n)
 	: counter(1) // counter(0) implemented by Aida
 {
 	// make_empty();
+    //Default: value = 0, nex = prev = nullptr
+    head = new Node();
+    // (value, next, prev)
+    tail = new Node(0, nullptr, head);
+    head->next = tail;
 	
-	Node* newNode = new Node(n, this->head->next, this->tail->prev);
+	Node* newNode = new Node(n, tail, tail->prev);
 	// tail->prev = newNode
 	// tail->prev->next = newNode;
-	this->head->next = this->tail->prev = newNode;
+	tail->prev = tail->prev->next = newNode;
 	//IMPLEMENT before HA session on week 14
 }
 
@@ -35,6 +40,11 @@ Set::Set (int n)
 Set::Set (int a[], int n) // a is sorted
 	: counter(n)
 {
+    //Default: value = 0, nex = prev = nullptr
+    head = new Node();
+    // (value, next, prev)
+    tail = new Node(0, nullptr, head);
+    head->next = tail;
 	for (int i = 0; i < n; i++)
 	{
 		Node* newNode = new Node(a[i], tail, tail->prev);
@@ -67,7 +77,7 @@ Set::Set (const Set& source)
 	tail = new Node(0, nullptr, head);
 	head->next = tail;
 
-	for (Node* ptr = source.head->next; ptr; ptr = ptr->next)
+	for (Node* ptr = source.head->next; ptr->next != nullptr; ptr = ptr->next)
 	{
 		Node* newNode = new Node(ptr->value, tail, tail->prev);
 		// tail->prev = newNode
