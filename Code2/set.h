@@ -218,10 +218,10 @@ private:
 
 	unsigned counter;	//Count number of values in the Set
 
-
 	/* ************************** *
 	* Private Member Functions    *
 	* **************************  */
+	void insert(int value);
 
 	//Add here declaration of any private auxiliary member functions, if needed
 

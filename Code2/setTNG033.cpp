@@ -287,7 +287,7 @@ void Set::insert(int value)
 		}
         newNode->next = temp->next; //link the new node to the node after the dummy node
         temp->next = newNode;//Insert after the dummy node
-	}
+	} 
 
 }
 
