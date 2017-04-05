@@ -86,6 +86,9 @@ public:
 	 //IMPLEMENT before HA session on week 14
 	Set (const Set& b);
 
+	//Move constructor
+	//Set(Set&& rhs);
+
 
 	/** Destructor
 	 *
@@ -104,6 +107,9 @@ public:
 	 */
 	 //IMPLEMENT before HA session on week 14
 	Set& operator=(Set source);
+
+	//Move assignment operator
+	//Set& operator=(Set&& source);
 
 
 	/** Test whether the Set is empty
@@ -221,7 +227,8 @@ private:
 	/* ************************** *
 	* Private Member Functions    *
 	* **************************  */
-	void insert(int value);
+	void insert(Node *p, int value);
+	Set& del(Node *p);
 
 	//Add here declaration of any private auxiliary member functions, if needed
 

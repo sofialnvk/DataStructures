@@ -27,7 +27,7 @@ Set::Set(int n)
 	tail = new Node(0, nullptr, head);
 	head->next = tail;
 
-	insert(n);
+	insert(tail, n);
 	//IMPLEMENT before HA session on week 14
 }
 
@@ -43,7 +43,7 @@ Set::Set(int a[], int n) // a is sorted
 	head->next = tail;
 	for (int i = 0; i < n; i++)
 	{
-		insert(a[i]);
+		insert(tail, a[i]);
 	}
 	//IMPLEMENT before HA session on week 14
 }
@@ -72,11 +72,18 @@ Set::Set(const Set& source)
 
 	for (Node* ptr = source.head->next; ptr->next != nullptr; ptr = ptr->next)
 	{
-		insert(ptr->value);
+		insert(tail, ptr->value);
 	}
 
 	//IMPLEMENT before HA session on week 14
 }
+
+//Move copy constructor
+/*Set::Set(Set&& rhs)
+{
+
+}*/
+
 
 
 //Copy-and-swap assignment operator
@@ -98,6 +105,11 @@ Set& Set::operator=(Set source)
 	return *this;
 }
 
+//Move assignment operator
+/*Set& Set::operator=(Set&& source)
+{
+	return *this;
+}*/
 
 //Test whether a set is empty
 bool Set::_empty() const
@@ -140,7 +152,7 @@ void Set::make_empty()
 {
 	Node *ptr = head;  //DONT skip the dummy node ??
 
-	while (ptr->next != tail)  //do not swap the tests
+	while (ptr->next != tail)  
 	{
 		Node *node = ptr->next;
 		ptr->next = node->next;
@@ -158,31 +170,41 @@ void Set::make_empty()
 Set& Set::operator+=(const Set& S)
 {
 	//IMPLEMENT before HA session on week 14
-	/*Node* left = head->next;
+	Node* left = head->next;
 	Node* right = S.head->next;
-	Set newSet;
 
-	while (left->next)
-	{
-		newSet.insert(left->value);
-		left = left->next;
+	while (left->next != nullptr && right->next != nullptr)
+	{	
+		//If left value < right --> insert and point to the next value
+		//Value already in this --> no insertion
+		if (left->value  < right->value )
+		{
+			left = left->next;
+		}
+
+		//If left value > right  --> insert and point to the next value
+		else if (left->value > right->value)
+		{
+			insert(left, right->value);
+			right = right->next;
+		}
+
+		//If values are the same the value already exists in this --> no insertion
+		else
+		{
+			right = right->next;
+		}
 	}
-	while (right->next)
+
+	//If right set is longer than left set --> insert the rest of the values
+	while (right->next != nullptr)
 	{
-		newSet.insert(right->value);
+		insert(tail, right->value);
 		right = right->next;
 	}
+	
 
-	swap(head, newSet.head); //swap the pointers
-	swap(head->value, newSet.head->value);
-	swap(tail, newSet.tail); //swap the pointers
-	swap(tail->value, newSet.tail->value);*/
-	Node* right = S.head->next;
-	while (right->next)
-	{
-		this->insert(right->value);
-		right = right->next;
-	}
+
 	return *this;
 }
 
@@ -190,7 +212,35 @@ Set& Set::operator+=(const Set& S)
 //a <= b iff every member of a is a member of b
 bool Set::operator<=(const Set& b) const
 {
-	//IMPLEMENT
+	Node* left = head->next;
+	Node* right = b.head->next;
+
+	if (cardinality() < b.cardinality()) 
+	{
+		while (left->next != nullptr && right->next != nullptr)
+		{
+			//If left value < right --> not a subset, return false
+			if (left->value < right->value)
+				return false;
+
+			//If left value > right  --> might be a subset, point to the next value in right
+			else if (left->value > right->value)
+			{
+				right = right->next;
+			}
+
+			//If values are the same, could be subset
+			else
+			{
+				left = left->next;
+				right = right->next;
+			}
+		}
+		//It is a subset 
+		return true;
+	}
+	
+
 
 	return false; //remove this line
 }
@@ -201,7 +251,30 @@ bool Set::operator<=(const Set& b) const
 bool Set::operator==(const Set& b) const
 {
 	//IMPLEMENT
+	Node* left = head->next;
+	Node* right = b.head->next;
 
+	//If the lengths of the sets are the same the could be equal 
+	if (cardinality() == b.cardinality())
+	{
+		while (left->next != nullptr && right->next != nullptr)
+		{
+			//If the they have the same value, point to the next value
+			if (left->value == right->value)
+			{
+				left = left->next;
+				right = right->next;
+			}
+			//If one of the values do not match, they are not equal
+			else
+			{
+				return false;
+			}
+		}
+		//If the sets are equal
+		return true;
+	}
+	//They do not have the same lenght
 	return false; //remove this line
 }
 
@@ -209,9 +282,14 @@ bool Set::operator==(const Set& b) const
 //a == b, iff a <= b and b <= a
 bool Set::operator!=(const Set& b) const
 {
-	//IMPLEMENT
+	//If the sets are equal
+	if (*this == b)
+	{
+		return false;
+	}
 
-	return false; //remove this line
+	//If the sets are different 
+	else return true;
 }
 
 
@@ -220,6 +298,12 @@ bool Set::operator!=(const Set& b) const
 bool Set::operator<(const Set& b) const
 {
 	//IMPLEMENT
+	if (*this <= b)
+	{
+		//It is a proper subset
+		if (*this != b)
+			return true;
+	}
 
 	return false; //remove this line
 }
@@ -228,7 +312,35 @@ bool Set::operator<(const Set& b) const
 //Modify *this such that it becomes the intersection of *this with Set S
 Set& Set::operator*=(const Set& S)
 {
-	//IMPLEMENT
+	Node* left = head->next;
+	Node* right = S.head->next;
+
+	while (left->next != nullptr && right->next != nullptr)
+	{
+		//Value does not exist in both sets, remove from this
+		if (left->value  < right->value)
+		{
+			//delete
+			//Node* temp_left = left;
+			del(left->next);
+			//left = left->next;
+		}
+
+		//Value only exists in right, do nothing to this and point to the
+		//next value in right
+		else if (left->value > right->value)
+		{
+			right = right->next;
+		}
+
+		//If values are the same, keep value in this, point to the next value 
+		//in left and right
+		else
+		{
+			left = left->next;
+			right = right->next;
+		}
+	}
 
 	return *this;
 }
@@ -237,7 +349,32 @@ Set& Set::operator*=(const Set& S)
 //Modify *this such that it becomes the Set difference between Set *this and Set S
 Set& Set::operator-=(const Set& S)
 {
-	//IMPLEMENT
+	Node* left = head->next;
+	Node* right = S.head->next;
+
+	while (left->next != nullptr && right->next != nullptr)
+	{
+		//Value does not exist in both sets, keep value in this
+		//point to the next value in left
+		if (left->value  < right->value)
+		{
+			left = left->next;
+		}
+
+		//Value only exists in right, insert to this and point to the
+		//next value in right
+		else if (left->value > right->value)
+		{
+			insert(right, right->value);
+			right = right->next;
+		}
+
+		//If values are the same, delete value from this
+		else
+		{
+			del(left);
+		}
+	}
 
 	return *this;
 }
@@ -265,43 +402,20 @@ ostream& operator<<(ostream& os, const Set& b)
 	return os;
 }
 
-void Set::insert(int value)
+void Set::insert(Node *p, int val)
 {
-	Node* newNode = new Node(value, tail, tail->prev);
-	
-	if (_empty())
-	{
-		tail->prev = tail->prev->next = newNode;
-		counter++;
-		//std::cout << "första värdet i newNode" << std::endl;
-	}
+	Node* newNode = new Node(val, p, p->prev); //steps 1 and 2
+	p->prev = p->prev->next = newNode; //steps 3 and 4
+	counter++;
+}
 
-	else 
-	{
-		Node* temp = head;
-		while (temp->next != tail) 
-		{ // tittar en framåt
-			if (value > temp->next->value)
-			{ // mindre gå vidare
-				temp = temp->next;
-				//std::cout << "if1" << std::endl;
-			}
-			else if (value == temp->next->value)
-			{ // om det redan finns
-				return;
-			}
-			else if (value < temp->next->value) 
-			{ // lägger till
-				tail->prev = tail->prev->next = newNode;
-				counter++;
-				//std::cout << "if3" << std::endl;
-				return;
-			}
-		}
-		tail->prev = tail->prev->next = newNode;
-		counter++;
-		//std::cout << "Utanför while-loopen" << std::endl;
+//Send in node you want to delete
+Set& Set::del(Node *p)
+{
+	p->prev->next = p->next;
+	p->next->prev = p->prev;
+	counter--;
 
-	}
-	
+	delete p; //deallocate
+	return *this;
 }

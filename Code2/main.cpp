@@ -97,38 +97,38 @@ int main()
 	cout << "\nTEST PHASE 6: operator+=, operator*=, operator-=\n\n";
 
 	S5 += S4;
-	//S4 *= S4;
-	//S1 -= S1;
+	S4 *= S4;
+	S1 -= S1;
 
 	cout << "S5 = " << S5 << endl;		//S5 = {1 2 3 4 5}
-	//cout << "S4 = " << S4 << endl;		//S5 = {2 3 4}
-	//cout << "S1 = " << S1 << endl;		//S1 = empty set
+	cout << "S4 = " << S4 << endl;		//S5 = {2 3 4}
+	cout << "S1 = " << S1 << endl;		//S1 = empty set
 
 
 	/*****************************************************
 	* TEST PHASE 7                                       *
 	* Overloaded operators: union, intersection, and     *
 	* and difference                                     *
-	******************************************************
+	******************************************************/
 	cout << "\nTEST PHASE 7: union, intersection, and difference\n\n";
 
 	S1 = (S3 + S4);
 	S2 = S3 * S4;
-	S5 = S3 - S4;
+	//S5 = S3 - S4;
 
 	cout << "S1 = " << S1 << endl;		//S1 = {1 2 3 4 5}
 	cout << "S2 = " << S2 << endl;		//S2 = {3}
 	cout << "S3 = " << S3 << endl;		//S3 = {1 3 5}
 	cout << "S4 = " << S4 << endl;		//S4 = {2 3 4}
-	cout << "S5 = " << S5 << endl;		//S5 = {1 5}
+	//cout << "S5 = " << S5 << endl;		//S5 = {1 5}
 
-	cout << "S2 + S1 * S5 = " << S2 + S1 * S5 << endl;	//{1 3 5}
+	//cout << "S2 + S1 * S5 = " << S2 + S1 * S5 << endl;	//{1 3 5}
 
 	/*****************************************************
 	* TEST PHASE 8                                       *
 	* Overloaded operators: equality, subset, and        *
 	* strict subset                                      *
-	******************************************************
+	******************************************************/
 	cout << "\nTEST PHASE 8: equality, subset, strict subset\n\n";
 
 	cout << "S4 == S1 ? " << (S4 == S1 ? 'T' : 'F') << endl;	//F
