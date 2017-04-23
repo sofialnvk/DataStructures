@@ -79,37 +79,58 @@ Set::Set(const Set& source)
 }
 
 //Move copy constructor
-/*Set::Set(Set&& rhs)
+/* Set::Set(Set&& rhs)
+    : head(rhs.head), tail(rhs.tail), counter(rhs.counter)
 {
-
-}*/
+    rhs.head = nullptr;
+    rhs.tail = nullptr;
+} */
 
 
 
 //Copy-and-swap assignment operator
 // Assigns new contents to the Set, replacing its current content
 // \param source Set to be copied into Set *this
-Set& Set::operator=(Set source)
+Set& Set::operator=(const Set& source)
 {
 	//Dont forget to check self assignment
-
-	Set copy(source);
-	swap(head, copy.head); //swap the pointers
-	swap(head->value, copy.head->value);
-	swap(tail, copy.tail); //swap the pointers
-	swap(tail->value, copy.tail->value);
-	swap(counter, copy.counter);
+    if(this != &source)
+    {
+        Set copy(source);
+        swap(head, copy.head); //swap the pointers
+        swap(head->value, copy.head->value);
+        swap(tail, copy.tail); //swap the pointers
+        swap(tail->value, copy.tail->value);
+        swap(counter, copy.counter);
+    }
 
 	//IMPLEMENT before HA session on week 14
 
 	return *this;
 }
 
+
 //Move assignment operator
-/*Set& Set::operator=(Set&& source)
+Set& Set::operator=(Set&& source)
 {
-	return *this;
-}*/
+	if(this != &source)
+    {
+        // release the current object’s resources
+        delete head;
+        delete tail;
+        counter = 0;
+        // pilfer soruce resource
+        head = source.head;
+        tail = source.tail;
+        counter = source.counter;
+        // reset other
+        source.head = nullptr;
+        source.tail = nullptr;
+        source.counter = 0;
+
+    }
+    return *this;
+}
 
 //Test whether a set is empty
 bool Set::_empty() const
@@ -152,13 +173,17 @@ void Set::make_empty()
 {
 	Node *ptr = head;  //DONT skip the dummy node ??
 
-	while (ptr->next != tail)  
+	while (ptr->next != tail)
 	{
 		Node *node = ptr->next;
 		ptr->next = node->next;
 		node->next->prev = head;
-
-		delete node; //deallocate
+        
+        delete node;
+        
+        //ptr = ptr->next;
+        
+		//del(ptr->prev); //deallocate
 	}
 	counter = 0;
 	//IMPLEMENT before HA session on week 14
@@ -202,9 +227,6 @@ Set& Set::operator+=(const Set& S)
 		insert(tail, right->value);
 		right = right->next;
 	}
-	
-
-
 	return *this;
 }
 
@@ -239,9 +261,6 @@ bool Set::operator<=(const Set& b) const
 		//It is a subset 
 		return true;
 	}
-	
-
-
 	return false; //remove this line
 }
 
@@ -315,14 +334,15 @@ Set& Set::operator*=(const Set& S)
 	Node* left = head->next;
 	Node* right = S.head->next;
 
-	while (left->next != nullptr && right->next != nullptr)
+	while (left != tail && right != S.tail)
 	{
 		//Value does not exist in both sets, remove from this
-		if (left->value  < right->value)
+		if (left->value < right->value)
 		{
 			//delete
 			//Node* temp_left = left;
-			del(left->next);
+            left = left->next;
+            del(left->prev);
 			//left = left->next;
 		}
 
@@ -330,7 +350,12 @@ Set& Set::operator*=(const Set& S)
 		//next value in right
 		else if (left->value > right->value)
 		{
-			right = right->next;
+			if (right->next == S.tail)
+            {
+                left = left->next;
+                del(left->prev);
+            }
+            right=right->next;
 		}
 
 		//If values are the same, keep value in this, point to the next value 
@@ -341,6 +366,14 @@ Set& Set::operator*=(const Set& S)
 			right = right->next;
 		}
 	}
+    
+    //If right set is longer than left set --> delete the rest of the values
+    while (right->next != nullptr)
+    {
+        left = left->next;
+        del(left->prev);
+
+    }
 
 	return *this;
 }
@@ -352,7 +385,7 @@ Set& Set::operator-=(const Set& S)
 	Node* left = head->next;
 	Node* right = S.head->next;
 
-	while (left->next != nullptr && right->next != nullptr)
+	while (left != tail && right != S.tail)
 	{
 		//Value does not exist in both sets, keep value in this
 		//point to the next value in left
@@ -365,14 +398,14 @@ Set& Set::operator-=(const Set& S)
 		//next value in right
 		else if (left->value > right->value)
 		{
-			insert(right, right->value);
 			right = right->next;
 		}
 
 		//If values are the same, delete value from this
 		else
 		{
-			del(left);
+            left = left->next;
+            del(left->prev);
 		}
 	}
 

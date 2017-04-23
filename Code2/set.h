@@ -96,7 +96,7 @@ public:
 	 *
 	 */
 	 //IMPLEMENT before HA session on week 14
-	~Set ();
+	~Set();
 
 
 	/** Assignment operator
@@ -106,11 +106,12 @@ public:
 	 *
 	 */
 	 //IMPLEMENT before HA session on week 14
-	Set& operator=(Set source);
+    
+	Set& operator=(const Set& source);
 
 	//Move assignment operator
-	//Set& operator=(Set&& source);
-
+	Set& operator=(Set&& source);
+    
 
 	/** Test whether the Set is empty
 	 *
@@ -118,7 +119,7 @@ public:
 	 * Return true if the set is empty, otherwise false
 	 *
 	 */
-	bool _empty () const;
+	bool _empty() const;
 
 
 	/** Count the number of values stored in the Set
@@ -137,7 +138,7 @@ public:
 	 *
 	 */
 	 //IMPLEMENT before HA session on week 14
-	bool is_member (int val) const;
+	bool is_member(int val) const;
 
 
 	/** Transform the Set into an empty se
