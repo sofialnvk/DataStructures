@@ -94,8 +94,7 @@ Set::Set(Set&& rhs)
 	rhs.head = new Node();
 	// (value, next, prev)
 	rhs.tail = new Node(0, nullptr, rhs.head);
-	rhs.ead->next = rhs.tail;
-
+    rhs.head->next = rhs.tail;
 	rhs.counter = 0;
 }
 
@@ -135,16 +134,21 @@ Set& Set::operator=(Set&& source)
 	if(this != &source)
     {
         // release the current object’s resources
+        make_empty();
         delete head;
         delete tail;
         counter = 0;
+        
         // pilfer soruce resource
         head = source.head;
         tail = source.tail;
         counter = source.counter;
+        
         // reset other
-        source.head = nullptr;
-        source.tail = nullptr;
+        source.head = new Node();
+        // (value, next, prev)
+        source.tail = new Node(0, nullptr, source.head);
+        source.head->next = source.tail;
         source.counter = 0;
 
     }

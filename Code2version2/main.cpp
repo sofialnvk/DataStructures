@@ -171,6 +171,8 @@ int main()
 	* move assignment operator                           *
 	******************************************************/
 	cout << "\nTEST PHASE 11: move assignment operator\n\n";
+    
+    ptr_S = new Set(S1);
 
 	*ptr_S += 0;
 
