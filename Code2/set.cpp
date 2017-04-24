@@ -79,12 +79,17 @@ Set::Set(const Set& source)
 }
 
 //Move copy constructor
-/* Set::Set(Set&& rhs)
-    : head(rhs.head), tail(rhs.tail), counter(rhs.counter)
+Set::Set(Set&& rhs)
+    : head(nullptr), tail(nullptr), counter(0)
 {
+	head = rhs.head;
+	tail = rhs.tail;
+	counter = rhs.counter;
+	
     rhs.head = nullptr;
     rhs.tail = nullptr;
-} */
+	rhs.counter = 0;
+} 
 
 
 

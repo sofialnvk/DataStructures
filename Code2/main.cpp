@@ -139,7 +139,7 @@ int main()
 	/*****************************************************
 	* TEST PHASE 9                                       *
 	* Overloaded operators: mixed-mode arithmetic        *
-	******************************************************
+	******************************************************/
 	cout << "\nTEST PHASE 9: mixed-mode arithmetic\n\n";
 
 	//Note: conversion constructor is called
@@ -152,7 +152,7 @@ int main()
 	/*****************************************************
 	* TEST PHASE 10                                      *
 	* Move constructor                                   *
-	******************************************************
+	******************************************************/
 	cout << "\nTEST PHASE 10: move constructor\n\n";
 
 	Set *ptr_S = new Set(S4);
@@ -169,10 +169,8 @@ int main()
 	/*****************************************************
 	* TEST PHASE 11                                      *
 	* move assignment operator                           *
-	******************************************************
+	******************************************************/
 	cout << "\nTEST PHASE 11: move assignment operator\n\n";
-
-	ptr_S = new Set(S1);
 
 	*ptr_S += 0;
 
@@ -184,7 +182,7 @@ int main()
 
 	cout << "Ending ...." << endl;
 
-	*/
+	
 	return 0;
 
 }

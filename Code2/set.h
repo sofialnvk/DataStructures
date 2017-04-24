@@ -87,7 +87,7 @@ public:
 	Set (const Set& b);
 
 	//Move constructor
-	//Set(Set&& rhs);
+	Set(Set&& rhs);
 
 
 	/** Destructor

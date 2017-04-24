@@ -8,6 +8,7 @@
 Set::Set()
 	: counter(0)
 {
+	//Create head and tail and link them to eachother
 	//Default: value = 0, nex = prev = nullptr
 	head = new Node();
 	// (value, next, prev)
@@ -21,12 +22,14 @@ Set::Set()
 Set::Set(int n)
 	: counter(0)
 {
+	//Create head and tail and link them to eachother
 	//Default: value = 0, nex = prev = nullptr
 	head = new Node();
 	// (value, next, prev)
 	tail = new Node(0, nullptr, head);
 	head->next = tail;
 
+	//Insert given value to set
 	insert(tail, n);
 	//IMPLEMENT before HA session on week 14
 }
@@ -41,6 +44,7 @@ Set::Set(int a[], int n) // a is sorted
 	// (value, next, prev)
 	tail = new Node(0, nullptr, head);
 	head->next = tail;
+	//Loop through the array and insert the values to the Set
 	for (int i = 0; i < n; i++)
 	{
 		insert(tail, a[i]);
@@ -50,11 +54,12 @@ Set::Set(int a[], int n) // a is sorted
 
 Set::~Set()
 {
+	//Empty the set
 	make_empty();
-
+	
 	delete head;
 	delete tail;
-
+	//Point to nullptr to avoid memory leaks
 	head = tail = nullptr;
 
 	//IMPLEMENT before HA session on week 14
@@ -72,6 +77,7 @@ Set::Set(const Set& source)
 	tail = new Node(0, nullptr, head);
 	head->next = tail;
 
+	//Loop through given set and insert values into this
 	for (Node* ptr = source.head->next; ptr->next != nullptr; ptr = ptr->next)
 	{
 		insert(tail, ptr->value);
@@ -84,13 +90,13 @@ Set::Set(const Set& source)
 Set::Set(Set&& rhs)
     : head(nullptr), tail(nullptr), counter(0)
 {
+	//Copy values from rhs to this
 	head = rhs.head;
 	tail = rhs.tail;
 	counter = rhs.counter;
 
-//    rhs.head = nullptr;
-//    rhs.tail = nullptr;
-
+	//Reset rhs
+	//Link head and tail of rhs to eachother
 	rhs.head = new Node();
 	// (value, next, prev)
 	rhs.tail = new Node(0, nullptr, rhs.head);
@@ -105,9 +111,10 @@ Set::Set(Set&& rhs)
 // \param source Set to be copied into Set *this
 Set& Set::operator=(const Set& source)
 {
-	//Dont forget to check self assignment
     if(this != &source)
     {
+		//Make a copy of source
+		//Swap the content of this and the copy
         Set copy(source);
         swap(head, copy.head); //swap the pointers
         swap(head->value, copy.head->value);
@@ -121,36 +128,30 @@ Set& Set::operator=(const Set& source)
 	return *this;
 }
 
-
 //Move assignment operator
 Set& Set::operator=(Set&& source)
 {
-    //this->make_empty();
-    //delete head;
-    //delete tail;
-    //steal the contents from source into *this
-    //make sure source is an empty list
 
 	if(this != &source)
     {
-        // release the current object’s resources
+        //release the current object’s resources
         make_empty();
         delete head;
         delete tail;
         counter = 0;
         
-        // pilfer soruce resource
+		//steal the contents from source into *this
         head = source.head;
         tail = source.tail;
         counter = source.counter;
         
-        // reset other
+        //reset source
+		//Make head and tail of source point to eachother
+		//make sure source is an empty list
         source.head = new Node();
-        // (value, next, prev)
         source.tail = new Node(0, nullptr, source.head);
         source.head->next = source.tail;
         source.counter = 0;
-
     }
     return *this;
 }
@@ -195,7 +196,7 @@ unsigned Set::cardinality() const
 void Set::make_empty()
 {
 	Node *ptr = head;  //DONT skip the dummy node ??
-
+	//Loop through the set and delete each value
 	while (ptr->next != tail)
 	{
 		Node *node = ptr->next;
@@ -203,10 +204,6 @@ void Set::make_empty()
 		node->next->prev = head;
 
         delete node;
-
-        //ptr = ptr->next;
-
-		//del(ptr->prev); //deallocate
 	}
 	counter = 0;
 	//IMPLEMENT before HA session on week 14
@@ -316,7 +313,7 @@ bool Set::operator==(const Set& b) const
 		//If the sets are equal
 		return true;
 	}
-	//They do not have the same lenght
+	//They do not have the same length
 	return false; //remove this line
 }
 
@@ -363,10 +360,8 @@ Set& Set::operator*=(const Set& S)
 		if (left->value < right->value)
 		{
 			//delete
-			//Node* temp_left = left;
             left = left->next;
             del(left->prev);
-			//left = left->next;
 		}
 
 		//Value only exists in right, do nothing to this and point to the
@@ -460,6 +455,7 @@ ostream& operator<<(ostream& os, const Set& b)
 
 void Set::insert(Node *p, int val)
 {
+	//Insert a value to the set and increment the counter
 	Node* newNode = new Node(val, p, p->prev); //steps 1 and 2
 	p->prev = p->prev->next = newNode; //steps 3 and 4
 	counter++;
@@ -468,6 +464,7 @@ void Set::insert(Node *p, int val)
 //Send in node you want to delete
 Set& Set::del(Node *p)
 {
+	//Delete a value from the set and decrement the counter
 	p->prev->next = p->next;
 	p->next->prev = p->prev;
 	counter--;
