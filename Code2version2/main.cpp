@@ -157,12 +157,13 @@ int main()
 
 	Set *ptr_S = new Set(S4);
 
-	*ptr_S += 24;
+	*ptr_S += 24; 
 
 	cout << "*ptr_S = " << *ptr_S << endl;
 	cout << "S5 = " << S5 << endl;
 
-	cout << "std::move(*ptr_S) * S5 = " << std::move(*ptr_S) * S5 << endl;		//S6 = {3 4 24}
+	//cout << "std::move(*ptr_S) * S5 = " << std::move(*ptr_S) * S5 << endl;		//S6 = {3 4 24}
+	cout << "std::S5 * move(*ptr_S) = " << S5 * std::move(*ptr_S) << endl;
 
 	delete ptr_S;
 

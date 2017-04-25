@@ -20,36 +20,22 @@ Set::Set()
 
 //Conversion constructor
 Set::Set(int n)
-	: counter(0)
+	: Set() //Call constructor instead of rewriting the code from the constructor
 {
-	//Create head and tail and link them to eachother
-	//Default: value = 0, nex = prev = nullptr
-	head = new Node();
-	// (value, next, prev)
-	tail = new Node(0, nullptr, head);
-	head->next = tail;
-
 	//Insert given value to set
 	insert(tail, n);
-	//IMPLEMENT before HA session on week 14
 }
 
 
 //Constructor to create a Set from a sorted array
 Set::Set(int a[], int n) // a is sorted
-	: counter(0)
+	: Set() //Call constructor instead of rewriting the code from the constructor
 {
-	//Default: value = 0, nex = prev = nullptr
-	head = new Node();
-	// (value, next, prev)
-	tail = new Node(0, nullptr, head);
-	head->next = tail;
 	//Loop through the array and insert the values to the Set
 	for (int i = 0; i < n; i++)
 	{
 		insert(tail, a[i]);
 	}
-	//IMPLEMENT before HA session on week 14
 }
 
 Set::~Set()
@@ -61,29 +47,18 @@ Set::~Set()
 	delete tail;
 	//Point to nullptr to avoid memory leaks
 	head = tail = nullptr;
-
-	//IMPLEMENT before HA session on week 14
-
 }
 
 
 //Copy constructor
 Set::Set(const Set& source)
-	: counter(0)
+	: Set() //Call constructor instead of rewriting the code from the constructor
 {
-	//Default: value = 0, nex = prev = nullptr
-	head = new Node();
-	// (value, next, prev)
-	tail = new Node(0, nullptr, head);
-	head->next = tail;
-
 	//Loop through given set and insert values into this
 	for (Node* ptr = source.head->next; ptr->next != nullptr; ptr = ptr->next)
 	{
 		insert(tail, ptr->value);
 	}
-
-	//IMPLEMENT before HA session on week 14
 }
 
 //Move copy constructor
@@ -98,7 +73,6 @@ Set::Set(Set&& rhs)
 	//Reset rhs
 	//Link head and tail of rhs to eachother
 	rhs.head = new Node();
-	// (value, next, prev)
 	rhs.tail = new Node(0, nullptr, rhs.head);
     rhs.head->next = rhs.tail;
 	rhs.counter = 0;
@@ -122,9 +96,6 @@ Set& Set::operator=(const Set& source)
         swap(tail->value, copy.tail->value);
         swap(counter, copy.counter);
     }
-
-	//IMPLEMENT before HA session on week 14
-
 	return *this;
 }
 
@@ -178,9 +149,7 @@ bool Set::is_member(int val) const
 		if (ptr->value == val)
 			return true;
 	}
-	//IMPLEMENT before HA session on week 14
-
-	return false; //remove this line
+	return false; 
 }
 
 
@@ -195,7 +164,7 @@ unsigned Set::cardinality() const
 //Make the set empty
 void Set::make_empty()
 {
-	Node *ptr = head;  //DONT skip the dummy node ??
+	Node *ptr = head;
 	//Loop through the set and delete each value
 	while (ptr->next != tail)
 	{
@@ -206,7 +175,6 @@ void Set::make_empty()
         delete node;
 	}
 	counter = 0;
-	//IMPLEMENT before HA session on week 14
 }
 
 //Modify *this such that it becomes the union of *this with Set S
@@ -214,7 +182,6 @@ void Set::make_empty()
 // Set *this is modified and then returned
 Set& Set::operator+=(const Set& S)
 {
-	//IMPLEMENT before HA session on week 14
 	Node* left = head->next;
 	Node* right = S.head->next;
 
@@ -281,7 +248,7 @@ bool Set::operator<=(const Set& b) const
 		//It is a subset
 		return true;
 	}
-	return false; //remove this line
+	return false;
 }
 
 
@@ -289,7 +256,6 @@ bool Set::operator<=(const Set& b) const
 //a == b, iff a <= b and b <= a
 bool Set::operator==(const Set& b) const
 {
-	//IMPLEMENT
 	Node* left = head->next;
 	Node* right = b.head->next;
 
@@ -336,7 +302,6 @@ bool Set::operator!=(const Set& b) const
 //a == b, iff a <= b but not b <= a
 bool Set::operator<(const Set& b) const
 {
-	//IMPLEMENT
 	if (*this <= b)
 	{
 		//It is a proper subset
@@ -344,7 +309,7 @@ bool Set::operator<(const Set& b) const
 			return true;
 	}
 
-	return false; //remove this line
+	return false; 
 }
 
 
@@ -385,8 +350,8 @@ Set& Set::operator*=(const Set& S)
 		}
 	}
 
-    //If right set is longer than left set --> delete the rest of the values
-    while (right->next != nullptr)
+    //If left set is longer than right set --> delete the rest of the values
+    while (left->next != nullptr)
     {
         left = left->next;
         del(left->prev);
