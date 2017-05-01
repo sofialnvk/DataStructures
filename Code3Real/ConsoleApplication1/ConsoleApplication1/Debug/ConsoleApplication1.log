@@ -1,0 +1,14 @@
+﻿  test1.cpp
+h:\tnd004\code3\binarysearchtree.h(180): error C2440: 'initializing': cannot convert from 'initializer list' to 'BinarySearchTree<int>::BinaryNode'
+  h:\tnd004\code3\binarysearchtree.h(180): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+  h:\tnd004\code3\binarysearchtree.h(178): note: while compiling class template member function 'void BinarySearchTree<int>::insert(const Comparable &,BinarySearchTree<Comparable>::BinaryNode *&,const BinarySearchTree<Comparable>::BinaryNode *)'
+          with
+          [
+              Comparable=int
+          ]
+  h:\tnd004\code3\binarysearchtree.h(139): note: see reference to function template instantiation 'void BinarySearchTree<int>::insert(const Comparable &,BinarySearchTree<Comparable>::BinaryNode *&,const BinarySearchTree<Comparable>::BinaryNode *)' being compiled
+          with
+          [
+              Comparable=int
+          ]
+  h:\tnd004\code3\test1.cpp(11): note: see reference to class template instantiation 'BinarySearchTree<int>' being compiled
