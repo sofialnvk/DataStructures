@@ -1,0 +1,5 @@
+﻿  test2.cpp
+h:\tnd004\critchcode\critchcode\binarysearchtree.h(425): warning C4715: 'BinarySearchTree<int>::find_predecessor': not all control paths return a value
+h:\tnd004\critchcode\critchcode\binarysearchtree.h(401): warning C4715: 'BinarySearchTree<int>::find_successor': not all control paths return a value
+  CritchCode.vcxproj -> H:\TND004\CritchCode\Debug\CritchCode.exe
+  CritchCode.vcxproj -> H:\TND004\CritchCode\Debug\CritchCode.pdb (Full PDB)
