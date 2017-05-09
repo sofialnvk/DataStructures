@@ -1,0 +1,4 @@
+permutations
+a
+aerobic
+demorgan

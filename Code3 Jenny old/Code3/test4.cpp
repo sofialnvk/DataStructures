@@ -12,7 +12,7 @@ int main( )
 {
 	BinarySearchTree<int> t1;
 
-    vector<int> V = { 8, 3, 10, 1, 6, 14, 4, 7, 13};
+	vector<int> V = { 8, 3, 10, 1, 6, 14, 4, 7, 13};
 
 	/**************************************/
 	cout << "PHASE 0: insert\n\n";
@@ -45,8 +45,6 @@ int main( )
 	cout << "*it2 = " << *it2 << endl; //iterator it2 should still point to 4
 
 	cout << "\nFinished testing" << endl;
-    
-
 
 	return 0;
 }

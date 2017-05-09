@@ -83,7 +83,7 @@ int main( )
     cout << "\nPHASE 6: remove\n\n";
     /**************************************/
 
-    /*for(int i = 0; i < 35; i+= 2 )
+    for(int i = 0; i < 35; i+= 2 )
     {
         cout << "remove " << i << endl;
         t1.remove( i );
@@ -92,7 +92,7 @@ int main( )
     //Display the tree
     cout << "\nT1" << endl;
     t1.printTree( );
-    cout << endl;*/
+    cout << endl;
 
     /**************************************/
     cout << "\nPHASE 7: find_pred_succ\n\n";
@@ -102,25 +102,6 @@ int main( )
     cout << "T2" << endl;
     t2.printTree( );
     cout << endl << endl;
-    
-    cout << "Parent of node 20: "
-    << t2.get_parent(20) << endl;
-    cout << "Parent of node 10: "
-    << t2.get_parent(10) << endl;
-    cout << "Parent of node 5: "
-    << t2.get_parent(5) << endl;
-    cout << "Parent of node 14: "
-    << t2.get_parent(14) << endl;
-    cout << "Parent of node 15: "
-    << t2.get_parent(15) << endl;
-    cout << "Parent of node 12: "
-    << t2.get_parent(12) << endl;
-    cout << "Parent of node 25: "
-    << t2.get_parent(25) << endl;
-    cout << "Parent of node 35: "
-    << t2.get_parent(35) << endl;
-    cout << "Parent of node 33: "
-    << t2.get_parent(33) << endl;
     
     int low = 15, high = 15;
     t2.find_pred_succ(15, low, high);

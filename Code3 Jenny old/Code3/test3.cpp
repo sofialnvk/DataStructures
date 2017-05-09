@@ -2,7 +2,6 @@
 #include <vector>
 #include <iterator>
 #include <fstream>
-#include <string>
 
 #include "BinarySearchTree.h"
 
@@ -41,7 +40,6 @@ int main( )
         else
             cout << "\""<< w << "\"" << " not in the tree" << endl;
     }
-    
 
     /**************************************/
     cout << "\nPHASE 2: BiIterator, operator++\n\n";
@@ -66,6 +64,6 @@ int main( )
     }
 
     cout << "\nFinished testing" << endl;
-     
+
     return 0;
 }

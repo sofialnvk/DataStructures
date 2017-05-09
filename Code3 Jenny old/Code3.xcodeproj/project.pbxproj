@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7FD651931EC11DE60041B76E /* test4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FD651921EC11DE60041B76E /* test4.cpp */; };
+		7FD811EA1EBDC84A00E9C5E7 /* test2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FD811E91EBDC84A00E9C5E7 /* test2.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,11 +23,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7FD651891EC0DA960041B76E /* keyCount.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = keyCount.h; sourceTree = "<group>"; };
-		7FD651921EC11DE60041B76E /* test4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test4.cpp; sourceTree = "<group>"; };
 		7FD811D51EBB9D5E00E9C5E7 /* Code3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Code3; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FD811DF1EBB9DD300E9C5E7 /* BinarySearchTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BinarySearchTree.h; sourceTree = "<group>"; };
 		7FD811E01EBB9DD300E9C5E7 /* dsexceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dsexceptions.h; sourceTree = "<group>"; };
+		7FD811E91EBDC84A00E9C5E7 /* test2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test2.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +59,9 @@
 		7FD811D71EBB9D5E00E9C5E7 /* Code3 */ = {
 			isa = PBXGroup;
 			children = (
-				7FD651921EC11DE60041B76E /* test4.cpp */,
+				7FD811E91EBDC84A00E9C5E7 /* test2.cpp */,
 				7FD811DF1EBB9DD300E9C5E7 /* BinarySearchTree.h */,
 				7FD811E01EBB9DD300E9C5E7 /* dsexceptions.h */,
-				7FD651891EC0DA960041B76E /* keyCount.h */,
 			);
 			path = Code3;
 			sourceTree = "<group>";
@@ -125,7 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FD651931EC11DE60041B76E /* test4.cpp in Sources */,
+				7FD811EA1EBDC84A00E9C5E7 /* test2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,7 +252,6 @@
 				7FD811DE1EBB9D5F00E9C5E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
