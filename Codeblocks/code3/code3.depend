@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1494332491 source:h:\tnd004\code3\codeblocks\code3\test1.cpp
+	<iostream>
+	<vector>
+	"BinarySearchTree.h"
+
+1494343235 h:\tnd004\code3\codeblocks\code3\binarysearchtree.h
+	"dsexceptions.h"
+	"keyCount.h"
+	<algorithm>
+
+1494324805 h:\tnd004\code3\codeblocks\code3\dsexceptions.h
+
+1494324805 h:\tnd004\code3\codeblocks\code3\keycount.h
+	<iomanip>
+
+1494343187 source:h:\tnd004\code3\codeblocks\code3\test4.cpp
+	<iostream>
+	<vector>
+	<iterator>
+	<fstream>
+	"BinarySearchTree.h"
+
