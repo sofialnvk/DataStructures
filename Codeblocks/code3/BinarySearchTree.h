@@ -398,7 +398,7 @@ private:
         //BinaryNode* oldParent = t->parent;
 
         //Point t to its child
-        // Aida say?? BUT WHY?? t->parent->left or right
+        // t->parent->left or right
         t = ( t->left != nullptr ) ? t->left : t->right;
         //If t has a child
         if ( t != nullptr)
@@ -478,16 +478,17 @@ private:
                 t->parent->right = temp1;
                 temp1->parent = t->parent;
             }
-            t->parent = nullptr;
+            //t->parent = nullptr;
 
-            temp1->left = t->left;
+            temp1->left = testL;
             testL->parent = temp1;
-            t->left = nullptr;
+            //t->left = nullptr;
 
-            temp1->right = t->right;
+            temp1->right = testR;
             testR->parent = temp1;
-            t->right = nullptr;
+            //t->right = nullptr;
 
+            t=temp1;
 
 
             //remove( t->element, t );

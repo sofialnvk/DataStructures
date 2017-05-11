@@ -21,3 +21,18 @@
 	<fstream>
 	"BinarySearchTree.h"
 
+1494514518 source:h:\tnd004\datastructures\codeblocks\code3\test4.cpp
+	<iostream>
+	<vector>
+	"BinarySearchTree.h"
+
+1494514854 h:\tnd004\datastructures\codeblocks\code3\binarysearchtree.h
+	"dsexceptions.h"
+	"keyCount.h"
+	<algorithm>
+
+1494324805 h:\tnd004\datastructures\codeblocks\code3\dsexceptions.h
+
+1494324805 h:\tnd004\datastructures\codeblocks\code3\keycount.h
+	<iomanip>
+
