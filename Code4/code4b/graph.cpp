@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include<vector>
 
 using namespace std;
 
@@ -58,11 +59,12 @@ void Graph::removeEdge(int u, int v)
 // Prim's minimum spanning tree algorithm
 void Graph::mstPrim() const
 {
+    //Create a vector to store the
+    vector<Edge> edges;
     int *dist  = new int [size + 1];
     int *path  = new int [size + 1];
     bool *done  = new bool[size + 1];
 
-    int start = 1;
     int totalWeight = 0;
 
     for(int v = 1; v<= size; v++)
@@ -71,9 +73,10 @@ void Graph::mstPrim() const
         path[v] = 0;
         done[v] = false;
     }
-    dist[start] = 0; //start can be any vertex
-    done[start] = true;
-    int v = start;
+    int v = 1;
+    dist[v] = 0; //start can be any vertex
+    done[v] = true;
+
 
     while (true)
     {
@@ -92,7 +95,26 @@ void Graph::mstPrim() const
         v = find_smallest_undone_distance_vertex(dist, done);
         if (v == 0) break; //exit the loop
         done[v] = true;
+
+        // Push every edge into a vector
+        edges.push_back(Edge(v, path[v], dist[v]));
+
     }
+
+    // Print all edges
+        for(int i = 0; i < edges.size(); i++)
+        {
+
+            display(edges[i].tail, edges[i].head, edges[i].weight);
+            totalWeight += edges[i].weight;
+
+        }
+
+        std::cout << "\nTotal weight = " << totalWeight << std::endl;
+
+        delete[] done;
+        delete[] path;
+        delete[] dist;
 
 }
 int Graph::find_smallest_undone_distance_vertex(int dist[], bool done[]) const
@@ -118,32 +140,46 @@ int Graph::find_smallest_undone_distance_vertex(int dist[], bool done[]) const
 void Graph::mstKruskal() const
 {
 
-    Heap<Edges> H; // min-heap by edges cost
+    Heap<Edge> H; // min-heap by edges cost
     DSets D(size); //n trees with one node each
+    Edge E;
 
     //H.heapify(E); //build the heap with all edges
 
-    //Psuedo code
-    for each Edge(u,v,w) in the graph
-        H.insert(Edge(u,v,w));
-
-
     int counter = 0;
-    int v = 1; //start
+    int totalWeight = 0;
+
+    for (int v = 1; v <= size; v++)
+    {
+        Node *p = array[v].getFirst();
+
+        while(p)
+        {
+            if (v < p->vertex)
+            {
+                H.insert(Edge(p->vertex, v, p->weight));
+            }
+            p = array[v].getNext();
+        }
+    }
+
 
 
     while (counter < size - 1)
     {
-        Node *p = array[v].getFirst();
-        int u = p->vertex;
-        (v, u) = H.deleteMin();
-        if (D.find(u) != D.find(v))
+
+        E = H.deleteMin(); //(v, u);
+
+        if (D.find(E.head) != D.find(E.tail))
         {
-            display(v, u, p->weight);
-            D.union(D.find(u), D.find(v));
+            display(E.tail, E.head, E.weight);
+            D.join(D.find(E.head), D.find(E.tail));
             counter++;
+            totalWeight += E.weight;
         }
     }
+
+    cout << "Total weight: " << totalWeight << endl;
 }
 
 // print graph
@@ -160,4 +196,9 @@ void Graph::printGraph() const
     }
 
     cout << "------------------------------------------------------------------" << endl;
+}
+
+void Graph::display(int v, int u, int weight) const
+{
+    cout << "(" << v << "," << u << "," << weight << ")" << endl;
 }

@@ -35,6 +35,8 @@ public:
     // print graph
     void printGraph() const;
 
+    void display(int v, int u, int weight) const;
+
     int find_smallest_undone_distance_vertex(int dist[], bool done[]) const;
 
 private:
