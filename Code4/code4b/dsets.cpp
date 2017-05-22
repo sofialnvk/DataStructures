@@ -53,7 +53,19 @@ void DSets::join(int r, int s)
     assert(array[s] < 0);
 
     // simple union
-    array[r]  = s;
+    int counter_r = 0;
+    int counter_s = 0;
+    for ( int i = 1; i <= size; i++)
+    {
+        if (array[i] == r)
+            counter_r++;
+        else if (array[i] == s)
+            counter_s++;
+    }
+    if(counter_r < counter_s)
+        array[r]  = s;
+    else
+        array[s] = r;
 
     // *** TODO ***
     // weighted union (by size)
@@ -72,7 +84,7 @@ int DSets::find(int x)
     }
     else
     {
-        return find(array[x]);
+        return array[x] = find(array[x]);
     }
 
     // *** TODO ***

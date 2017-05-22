@@ -5,17 +5,17 @@
 	<cassert>
 	"dsets.h"
 
-1494945444 h:\tnd004\datastructures\code4\code4b\dsets.h
+1495453634 h:\tnd004\datastructures\code4\code4b\dsets.h
 
-1494945444 source:h:\tnd004\datastructures\code4\code4b\edge.cpp
+1495453634 source:h:\tnd004\datastructures\code4\code4b\edge.cpp
 	<iostream>
 	<iomanip>
 	"edge.h"
 
-1494945444 h:\tnd004\datastructures\code4\code4b\edge.h
+1495453634 h:\tnd004\datastructures\code4\code4b\edge.h
 	<utility>
 
-1495372945 source:h:\tnd004\datastructures\code4\code4b\graph.cpp
+1495453634 source:h:\tnd004\datastructures\code4\code4b\graph.cpp
 	<iostream>
 	<iomanip>
 	<cassert>
@@ -25,20 +25,20 @@
 	"heap.h"
 	"dsets.h"
 
-1495368216 h:\tnd004\datastructures\code4\code4b\graph.h
+1495453634 h:\tnd004\datastructures\code4\code4b\graph.h
 	"list.h"
 
-1494945445 h:\tnd004\datastructures\code4\code4b\list.h
+1495453641 h:\tnd004\datastructures\code4\code4b\list.h
 
-1494949693 h:\tnd004\datastructures\code4\code4b\heap.h
+1495453638 h:\tnd004\datastructures\code4\code4b\heap.h
 	<cassert>
 
-1494945445 source:h:\tnd004\datastructures\code4\code4b\list.cpp
+1495453639 source:h:\tnd004\datastructures\code4\code4b\list.cpp
 	<iostream>
 	<iomanip>
 	"list.h"
 
-1494945449 source:h:\tnd004\datastructures\code4\code4b\main.cpp
+1495453641 source:h:\tnd004\datastructures\code4\code4b\main.cpp
 	<iostream>
 	<fstream>
 	<string>
