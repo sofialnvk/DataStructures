@@ -59,20 +59,22 @@ void Graph::removeEdge(int u, int v)
 // Prim's minimum spanning tree algorithm
 void Graph::mstPrim() const
 {
-    //Create a vector to store the
+    //Create a vector to store the edges
     vector<Edge> edges;
+    //Create arrays for distance, path and done
     int *dist  = new int [size + 1];
     int *path  = new int [size + 1];
     bool *done  = new bool[size + 1];
 
     int totalWeight = 0;
-
+    //Initialize the arrays
     for(int v = 1; v<= size; v++)
     {
         dist[v] = INFINITY;
         path[v] = 0;
         done[v] = false;
     }
+    //Choose starting vertex
     int v = 1;
     dist[v] = 0; //start can be any vertex
     done[v] = true;
@@ -80,19 +82,25 @@ void Graph::mstPrim() const
 
     while (true)
     {
+        //Point to the next value in the list
         Node *p = array[v].getFirst();
-        //cout << p->vertex << endl;
+        //Loop through the list
         while(p)
         {
             int u = p->vertex;
+            //Change initialized value
+            //Only change value if it has not been visited and if there is a cheaper path
             if ( done[u]==false && dist[u] > p->weight )
             {
                 dist[u] = p->weight;
                 path[u] = v;
             }
+            //Point to the next value in the list
             p = array[v].getNext();
         }
+        //Point to the next value in the list
         v = find_smallest_undone_distance_vertex(dist, done);
+        //If no vertex was found they have all been visited, break the loop
         if (v == 0) break; //exit the loop
         done[v] = true;
 
@@ -102,37 +110,42 @@ void Graph::mstPrim() const
     }
 
     // Print all edges
-        for(int i = 0; i < edges.size(); i++)
-        {
+    for(int i = 0; i < edges.size(); i++)
+    {
+        display(edges[i].tail, edges[i].head, edges[i].weight);
+        //Increment total weight
+        totalWeight += edges[i].weight;
+    }
 
-            display(edges[i].tail, edges[i].head, edges[i].weight);
-            totalWeight += edges[i].weight;
-
-        }
-
-        std::cout << "\nTotal weight = " << totalWeight << std::endl;
-
-        delete[] done;
-        delete[] path;
-        delete[] dist;
+    std::cout << "\nTotal weight = " << totalWeight << std::endl;
+    //Deallocate memory
+    delete[] done;
+    delete[] path;
+    delete[] dist;
 
 }
 int Graph::find_smallest_undone_distance_vertex(int dist[], bool done[]) const
 {
+    //Set v to a large value to start comparing
     int v = INFINITY+1;
     int vertex = 0;
 
+    //Loop through the graph
     for (int i = 1; i <=size; i++)
     {
+        //If vertex is not visited
         if (done[i]== false )
         {
+            //If distance is shorter than v
             if ( v > dist[i])
             {
+                //Update the distance and save the vertex
                 v = dist[i];
                 vertex = i;
             }
         }
     }
+    //Return vertex with the shortest path
     return vertex;
 }
 
@@ -144,37 +157,42 @@ void Graph::mstKruskal() const
     DSets D(size); //n trees with one node each
     Edge E;
 
-    //H.heapify(E); //build the heap with all edges
-
     int counter = 0;
     int totalWeight = 0;
 
+    //Build the heap with all the edges
     for (int v = 1; v <= size; v++)
     {
+        //Create a node to the first element in the list at slot v
         Node *p = array[v].getFirst();
-
+        //Create a node to the first element in the list at slot v
         while(p)
         {
             if (v < p->vertex)
             {
+                //Insert edge
                 H.insert(Edge(p->vertex, v, p->weight));
             }
+            //Create a node to the first element in the list at slot v
             p = array[v].getNext();
         }
     }
 
 
-
+    //
     while (counter < size - 1)
     {
 
         E = H.deleteMin(); //(v, u);
-
+        //If the vertices are not the same
         if (D.find(E.head) != D.find(E.tail))
         {
+            //Display
             display(E.tail, E.head, E.weight);
+            //Join vertices
             D.join(D.find(E.head), D.find(E.tail));
             counter++;
+            //Add weight to total weight
             totalWeight += E.weight;
         }
     }

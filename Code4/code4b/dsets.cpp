@@ -52,23 +52,19 @@ void DSets::join(int r, int s)
     assert(array[r] < 0);
     assert(array[s] < 0);
 
-    // simple union
-    int counter_r = 0;
-    int counter_s = 0;
-    for ( int i = 1; i <= size; i++)
+    //If r has more elements than s, hang s to r
+    if (array[r] < array[s])
     {
-        if (array[i] == r)
-            counter_r++;
-        else if (array[i] == s)
-            counter_s++;
-    }
-    if(counter_r < counter_s)
-        array[r]  = s;
-    else
+        array[r]  += array[s];
         array[s] = r;
+    }
+    //If s has more elements than r, hang r to s
+    else
+    {
+        array[s]  += array[r];
+        array[r] = s;
+    }
 
-    // *** TODO ***
-    // weighted union (by size)
 }
 
 // return name of current set for x
@@ -86,9 +82,6 @@ int DSets::find(int x)
     {
         return array[x] = find(array[x]);
     }
-
-    // *** TODO ***
-    // find with path compression
 }
 
 // just in case ...

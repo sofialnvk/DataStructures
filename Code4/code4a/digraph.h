@@ -41,8 +41,6 @@ public:
     // print shortest path from s to t
     void printPath(int t) const;
 
-    void printHelp(int t) const;
-
     int find_smallest_undone_distance_vertex() const;
 
 
@@ -53,6 +51,8 @@ private:
     int  *path;
     bool *done;
     int  size;
+
+    void printHelp(int t) const;
 };
 
 #endif

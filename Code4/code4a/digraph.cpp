@@ -78,6 +78,7 @@ void Digraph::uwsssp(int s)
 
     //Set distance of start vertex to 0
     dist[s]=0;
+    //Add start value to queue
     Q.enqueue(s);
 
     while(!Q.isEmpty())
@@ -86,7 +87,7 @@ void Digraph::uwsssp(int s)
         int v = Q.getFront();
         //Create a node to the first element in the list at slot v
         Node *p = array[v].getFirst();
-        Q.dequeue();
+        Q.dequeue(); //Remove from queue
 
         //Loop through the list
         while(p)
@@ -99,6 +100,7 @@ void Digraph::uwsssp(int s)
                 //Update distance and path
                 dist[u]=dist[v]+1;
                 path[u]=v;
+                //Add u to the list
                 Q.enqueue(u);
             }
             //Point to the next value in the list
@@ -116,58 +118,74 @@ void Digraph::pwsssp(int s)
          return;
     }
 
+    //Initialize all distances and paths
     for (int v = 1; v<= size; v++)
     {
         dist[v]=INFINITY;
         path[v]=0;
+        //Done is used to mark the visited elements
         done[v]=false;
     }
+    //Set distance of start vertex to 0
+    //Start vertex is visited, therefore done = true
     dist[s]=0;
     done[s]=true;
+    //Copy start value to v
     int v = s;
 
     while(true)
     {
+        //Create a node to the first element in the list at slot v
         Node *p = array[v].getFirst();
-        //cout << p->vertex << endl;
+        //Loop through the list
         while(p)
         {
             int u = p->vertex;
+            //Change initialized value
+            //Only change value if it has not been visited and if there is a cheaper path
             if(done[u]==false && dist[u] > dist[v] + p->weight)
             {
                 dist[u]=dist[v]+p->weight;
                 path[u]=v;
             }
+            //Point to the next value in the list
             p = array[v].getNext();
         }
 
+        //Finds the vertex with the shortest path that has not been visited
         v=find_smallest_undone_distance_vertex();
+        //If no vertex was found they have all been visited, break the loop
         if(v==0)
         {
             //exit the loop
             break;
         }
-        done[v]=true;
+        done[v]=true; //Mark the found vertices with true
     }
 }
 
 int Digraph::find_smallest_undone_distance_vertex() const
 {
+    //Set v to a large value to start comparing
     int v = INFINITY+1;
     int vertex = 0;
 
+    //Loop through the graph
     for (int i = 1; i <=size; i++)
     {
+        //If vertex is not visited
         if (done[i]== false )
         {
+            //If distance is shorter than v
             if ( v > dist[i])
             {
+                //Update the distance and save the vertex
                 v = dist[i];
                 vertex = i;
             }
         }
     }
-
+    //Return vertex with the shortest path
     return vertex;
 }
 

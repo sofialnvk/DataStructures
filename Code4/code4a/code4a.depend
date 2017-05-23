@@ -6,20 +6,20 @@
 	"digraph.h"
 	"queue.h"
 
-1494939294 h:\tnd004\datastructures\code4\code4a\digraph.h
+1495544225 h:\tnd004\datastructures\code4\code4a\digraph.h
 	"list.h"
 
-1494927634 h:\tnd004\datastructures\code4\code4a\list.h
+1495453631 h:\tnd004\datastructures\code4\code4a\list.h
 
 1494930415 h:\tnd004\datastructures\code4\code4a\queue.h
 	<cassert>
 
-1494927633 source:h:\tnd004\datastructures\code4\code4a\list.cpp
+1495453631 source:h:\tnd004\datastructures\code4\code4a\list.cpp
 	<iostream>
 	<iomanip>
 	"list.h"
 
-1494927634 source:h:\tnd004\datastructures\code4\code4a\main 2.cpp
+1495453631 source:h:\tnd004\datastructures\code4\code4a\main 2.cpp
 	<iostream>
 	<fstream>
 	<string>
