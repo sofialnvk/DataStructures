@@ -209,15 +209,36 @@ public:
              else
                  return true;
          }
+
          BiIterator& operator++() //pre-increment
          {
              current = find_successor(current);
              return *this;
          }
+
          BiIterator& operator--() //pre-decrement
          {
              current = find_predecessor(current);
              return *this;
+         }
+
+         BiIterator operator++(int) //pos-increment
+         {
+
+            BiIterator it = *this;
+
+            operator++();
+
+            return it;
+         }
+
+         BiIterator& operator--(int) //pos-decrement
+         {
+            BiIterator it = *this;
+
+            operator--();
+
+            return it;
          }
 
         private:
@@ -227,15 +248,15 @@ public:
     /**
      * Returns true if x is found in the tree.
      */
-     BiIterator contains( const Comparable & x ) const
-     {
-        return contains( x, root );
-     }
-
-     /*bool contains( const Comparable & x ) const
+     /*BiIterator contains( const Comparable & x ) const
      {
         return contains( x, root );
      }*/
+
+     bool contains( const Comparable & x ) const
+     {
+        return contains( x, root );
+     }
 
      BiIterator begin() const
      {
@@ -391,51 +412,59 @@ private:
      * Set the new root of the subtree.
      */
 
-    BinaryNode* remove_aux( const Comparable & x, BinaryNode* t )
+    void remove_aux( BinaryNode* &t )
     {
-        //Create a temporary node which is the node we want to remove
-        BinaryNode* oldNode = t;
-        //BinaryNode* oldParent = t->parent;
-
-        //Point t to its child
-        // t->parent->left or right
-        t = ( t->left != nullptr ) ? t->left : t->right;
-        //If t has a child
-        if ( t != nullptr)
+        //Check if t is the root
+        if (t->parent != nullptr)
         {
-            if(oldNode->parent->left->element == x)
+            //If t is left child of parent
+            if ( t->parent->left == t)
             {
-                //Point the child to its new parent
-                t->parent = oldNode->parent;
-                oldNode->parent->left = t;
+                //If t has left child
+                if (t->left != nullptr)
+                {
+                    //Point the left child to t's parent and t's parent to t's child
+                    t->left->parent = t->parent;
+                    t->parent->left = t->right;
+                }
+                //If t has right child
+                else if (t->right != nullptr)
+                {
+                    //Point the right child to t's parent and t's parent to t's child
+                    t->right->parent = t->parent;
+                    t->parent->left = t->right;
+                }
+                //No children
+                else
+                {
+                    t->parent->left = nullptr;
+                }
+
             }
+            //If t is right child
             else
             {
-                t->parent = oldNode->parent;
-                oldNode->parent->right = t;
+                //If t has left child
+                if (t->left != nullptr)
+                {
+                    //Point the left child to t's parent and t's parent to t's child
+                    t->left->parent = t->parent;
+                    t->parent->right = t->right;
+                }
+                //If t has right child
+                else if (t->right != nullptr)
+                {
+                    //Point the right child to t's parent and t's parent to t's child
+                    t->right->parent = t->parent;
+                    t->parent->right = t->right;
+                }
+                //No children
+                else
+                {
+                    t->parent->right = nullptr;
+                }
             }
         }
-
-        //If t is childless
-        //Remove "link" to the deleted child
-        if(oldNode->parent->left->element == x)
-        {
-            oldNode->parent->left = nullptr;
-        }
-        else
-        {
-            oldNode->parent->right = nullptr;
-        }
-
-        //Free the node from all responsibilities
-        oldNode->parent = nullptr;
-        oldNode->left = nullptr;
-        oldNode->right = nullptr;
-
-        cout << "hej : " << endl;
-        printTree();
-        //Return the node
-        return oldNode;
     }
 
 
@@ -457,46 +486,49 @@ private:
         //If the node has two children
         else if (t->left!= nullptr && t->right!=nullptr)
         {
-            //Find min in the right subtree
-            //Assign the min value to t
-            //t->element = findMin(t->right)->element;
-            //Remove the duplicates
-            BinaryNode* testL = t->left;
-            BinaryNode* testR = t->right;
+            //LEAKS memory: needs to delete node pointed by t
+
+            //Find min in the right subtree and store in temp
             BinaryNode* temp = findMin(t->right);
-            BinaryNode* temp1 = remove_aux(temp->element,temp);
+            //Remove that value from the tree but keep the node in temp
+            remove_aux(temp);
 
-            //If node to be removed was a left child
-            if(t->parent->left->element == x)
+            //Link t's children to the temp via parent node
+            t->left->parent = temp;
+            //If temp was the last right node, this will now be a nullptr after removing temp
+            //Therefore we need to check t->right
+            if (t->right != nullptr)
+                t->right->parent = temp;
+
+            //Link temp to t's children
+            temp->left = t->left;
+            temp->right = t->right;
+
+            //Link temp's parent to t's parent
+            temp->parent = t->parent;
+
+            //Check if t is the root
+            if(t->parent != nullptr )
             {
-                //Point the child to its new parent
-                t->parent->left = temp1;
-                temp1->parent = t->parent;
+                //If not, if t is a left child, link the left pointer of t's parent to temp
+                if(t->parent->left == t)
+                    t->parent->left = temp;
+                //If t is a right child, link the right pointer of t's parent to temp
+                else
+                    t->parent->right = temp;
             }
-            else
-            {
-                t->parent->right = temp1;
-                temp1->parent = t->parent;
-            }
-            //t->parent = nullptr;
 
-            temp1->left = testL;
-            testL->parent = temp1;
-            //t->left = nullptr;
-
-            temp1->right = testR;
-            testR->parent = temp1;
-            //t->right = nullptr;
-
-            t=temp1;
-
-
-            //remove( t->element, t );
+            //Replace t with temp
+            t = temp;
         }
         //If the node has one child or no child
         else
         {
-            remove_aux(t->element, t);
+            BinaryNode* ptr = t;
+
+            remove_aux(t);
+
+            delete ptr;
         }
     }
 
@@ -573,7 +605,7 @@ private:
         else //predecessor is one of the ancestors
         {
             /*
-             Algorithm: climb up using the parent pointer until
+             Algorithm: climb up using the parent pointer until//Remove that value from the tree but keep the node in temp
              one finds a node N which is right child of its parent
              The parent of N is the predecessor of node t
              */
@@ -654,7 +686,7 @@ private:
      * x is item to search for.
      * t is the node that roots the subtree.
      */
-     BiIterator contains( const Comparable & x, BinaryNode *t ) const
+     /*BiIterator contains( const Comparable & x, BinaryNode *t ) const
      {
          if( t == nullptr )
              return *new BiIterator();
@@ -667,9 +699,9 @@ private:
              return *new BiIterator(t); // Match
          }
 
-     }
+     }*/
 
-	/*bool contains(const Comparable & x, BinaryNode *t) const
+	bool contains(const Comparable & x, BinaryNode *t) const
 	{
 		if (t == nullptr)
 			return false;
@@ -679,7 +711,7 @@ private:
 			return contains(x, t->right);
 		else
 			return true;    // Match
-	}*/
+	}
     /****** NONRECURSIVE VERSION*************************
      bool contains( const Comparable & x, BinaryNode *t ) const
      {

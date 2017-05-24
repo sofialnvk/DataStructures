@@ -32,7 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="BinarySearchTree.h" />
+		<Unit filename="dsexceptions.h" />
+		<Unit filename="keyCount.h" />
+		<Unit filename="test4.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

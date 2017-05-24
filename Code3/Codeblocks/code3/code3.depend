@@ -36,3 +36,18 @@
 1494324805 h:\tnd004\datastructures\codeblocks\code3\keycount.h
 	<iomanip>
 
+1495608633 source:h:\tnd004\datastructures\code3\codeblocks\code3\test4.cpp
+	<iostream>
+	<vector>
+	"BinarySearchTree.h"
+
+1495612403 h:\tnd004\datastructures\code3\codeblocks\code3\binarysearchtree.h
+	"dsexceptions.h"
+	"keyCount.h"
+	<algorithm>
+
+1495453618 h:\tnd004\datastructures\code3\codeblocks\code3\dsexceptions.h
+
+1495453618 h:\tnd004\datastructures\code3\codeblocks\code3\keycount.h
+	<iomanip>
+
